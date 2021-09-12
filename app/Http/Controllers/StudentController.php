@@ -20,7 +20,7 @@ class StudentController extends Controller
     public function CreateStudent(Request $request)
     {
         if($request->hasFile('image'))
-        {
+        { //new chamge
             $filename =$request->image->getClientOriginalName();
             $request->image->StoreAs('StudentImages',$filename,'public');
             $Student =Student::create($request->all());
