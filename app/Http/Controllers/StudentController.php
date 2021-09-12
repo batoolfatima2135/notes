@@ -21,6 +21,7 @@ class StudentController extends Controller
     {
         if($request->hasFile('image'))
         { //new chamge
+            //testing again
             $filename =$request->image->getClientOriginalName();
             $request->image->StoreAs('StudentImages',$filename,'public');
             $Student =Student::create($request->all());
