@@ -15,7 +15,7 @@
         <h1>
 
         </h1>
-        <form  action="{{route('EditStudent',$Student->id)}}" method="POST">
+        <form  action="{{route('EditStudent',$Student->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
               <label for="exampleFormControlInput1">name</label>
@@ -25,7 +25,11 @@
                 <label for="exampleFormControlInput1">age</label>
                 <input type="id" name= "age" value="{{$Student->age}}" class="form-control" id="exampleFormControlInput1">
               </div>
-
+              <div class="form-group">
+                <label for="exampleFormControlInput1">image</label>
+                <input type="file" class="form-control" name="image" id="exampleFormControlInput1" style="width:20;" class="img-float" >
+              </div>
+            <div class="form-group">
 
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Qualification</label>

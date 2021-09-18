@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -20,9 +21,9 @@ class StudentController extends Controller
     public function CreateStudent(Request $request)
     {
         if($request->hasFile('image'))
-        { //new chamge
-            //testing again
+        {
             $filename =$request->image->getClientOriginalName();
+
             $request->image->StoreAs('StudentImages',$filename,'public');
             $Student =Student::create($request->all());
             $Student->image = $filename;
@@ -44,6 +45,15 @@ class StudentController extends Controller
     }
     public function EditStudent(Request $request , Student $Student)
     {
+        if($request->hasFile('image'))
+        {
+            $filename = $request->image->getClientOriginalName();
+            Storage::delete('/public/StudentImages/'.$Student->image);
+            $request->image->storeAs('StudentImages',$filename,'public');
+            $Student->update($request->all());
+            $Student->image = $filename;
+
+        }
        $Student->update($request->all());
        return redirect(route('ShowStudents'))->with('msg','Student updated succesfully');
     }
