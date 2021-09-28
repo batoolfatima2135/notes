@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Contracts\Mail\Mailable;
+use App\mail\EditedMail;
 
 class StudentController extends Controller
 {
@@ -45,6 +48,7 @@ class StudentController extends Controller
     public function EditStudent(Request $request , Student $Student)
     {
        $Student->update($request->all());
+       Mail::to($Student['email'])->send(new EditedMail($Student));
        return redirect(route('ShowStudents'))->with('msg','Student updated succesfully');
     }
 

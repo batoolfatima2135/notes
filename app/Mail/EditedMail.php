@@ -10,15 +10,15 @@ use Illuminate\Queue\SerializesModels;
 class EditedMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $student;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($student)
     {
-        //
+    $this->student = $student;
     }
 
     /**
@@ -28,6 +28,6 @@ class EditedMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('EditedView');
     }
 }

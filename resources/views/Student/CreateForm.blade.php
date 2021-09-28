@@ -24,6 +24,10 @@
               <input type="text" class="form-control" name="name" id="exampleFormControlInput1" >
             </div>
             <div class="form-group">
+                <label for="exampleFormControlInput1">Email</label>
+                <input type="email" class="form-control" name="email" id="exampleFormControlInput1" >
+              </div>
+            <div class="form-group">
                 <label for="exampleFormControlInput1">image</label>
                 <input type="file" class="form-control" name="image" id="exampleFormControlInput1" >
               </div>

@@ -25,6 +25,10 @@
                 <label for="exampleFormControlInput1">age</label>
                 <input type="id" name= "age" value="{{$Student->age}}" class="form-control" id="exampleFormControlInput1">
               </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Email</label>
+                <input type="email" class="form-control" value="{{$Student->email}}" name="email" id="exampleFormControlInput1" >
+              </div>
 
 
             <div class="form-group">
