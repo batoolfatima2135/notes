@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 use App\mail\EditedMail;
+use App\Notifications\Welcome;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -59,7 +60,8 @@ class StudentController extends Controller
 
         }
        $Student->update($request->all());
-       Mail::to($Student['email'])->send(new EditedMail($Student));
+       $Student->notify(new Welcome($Student));
+       //Mail::to($Student['email'])->send(new EditedMail($Student));
        return redirect(route('ShowStudents'))->with('msg','Student updated succesfully');
     }
 
@@ -67,5 +69,10 @@ class StudentController extends Controller
     {
         $Student->delete();
         return redirect()->back()->with('msg1','deleted succesfully');
+    }
+    public function Markas(Student $Student)
+    {
+        $Student->unreadNotifications->markAsRead();
+        return redirect()->back();
     }
 }

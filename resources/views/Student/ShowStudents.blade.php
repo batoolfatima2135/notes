@@ -1,6 +1,49 @@
-@extends('masterlayout')
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            {{ config('app.name', 'Laravel') }}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-@section('data')
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav mr-auto">
+
+            </ul>
+
+            <!-- Right Side Of Navbar -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Authentication Links -->
+
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="{{route('mark',$data->id)}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                      Notifications <span class="badge badge-danger">{{$data->unreadnotifications->count()}}</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                       @foreach ($data->unreadnotifications as $notification )
+                       <a class="dropdown-item bg-danger" href="#">
+                        {{$notification->data['data']}}
+                    </a>
+                       @endforeach
+                       @foreach ($data->readnotifications as $notification )
+                       <a class="dropdown-item" href="#">
+                        {{$notification->data['data']}}
+                    </a><\
+                       @endforeach
+
+
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
 <h3>
     @if (session()->has('msg'))
         {{session()->get('msg')}}

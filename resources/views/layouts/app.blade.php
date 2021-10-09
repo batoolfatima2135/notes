@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
@@ -18,6 +17,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script>
+        window.Laravel ={!! json_encode([
+            'csrfToken'=>csrf_token(),
+        ])!!};
+    </script>
 </head>
 <body>
     <div id="app">
@@ -52,6 +56,43 @@
                                 </li>
                             @endif
                         @else
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" onclick="getform()" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+
+
+                            Notifications <span class="badge badge-danger" id="notifcount"></span>
+                            </a>
+                            <form id="mark-form" class="d-none">
+@csrf
+                            </form>
+                            <form id="mark-form2" class="d-none" action="{{route('mark')}}" method="POST">
+@csrf
+
+                            </form>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a onclick="event.preventDefault();
+                                document.getElementById('mark-form2').submit();" role="button" >mark as read</a>
+                               @foreach (Auth::user()->unreadnotifications as $notification )
+                               <a class="dropdown-item " href="#">
+                                {{$notification->data['data']}}
+                            </a>
+                               @endforeach
+                               @foreach (Auth::user()->readnotifications as $notification )
+                               <a class="dropdown-item" href="">
+                                {{$notification->data['data']}}
+                            </a>
+                               @endforeach
+
+
+
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <img src="{{asset('/storage/images/'.Auth::user()->image)}}" alt="" width="50">
+                        </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -79,5 +120,27 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+   <script type="text/javascript">
+    $(document).ready(function(){
+            $.post("/unmark",function(res){
+                $("#notifcount").html(res);
+            })
+        });
+function getform(){
+$.ajax({
+  url: "/mark",
+  type:"POST",
+  success:function(response){
+    $("#notifcount").html(response);
+  },
+ });
+}
+      </script>
 </body>
 </html>

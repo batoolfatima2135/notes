@@ -2,16 +2,17 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class Welcome extends Notification
+class Edited extends Notification
 {
     use Queueable;
     public $user;
+
     /**
      * Create a new notification instance.
      *
@@ -30,7 +31,7 @@ class Welcome extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -42,7 +43,15 @@ class Welcome extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->view('mail',['user'=>$this->user]);
+                    ->view("EditedView");
+    }
+    public function toBroadcast()
+    {
+        return new BroadcastMessage(
+            [
+                'data'=> $this->user->name .' added photo'
+            ]
+            );
     }
 
     /**
@@ -54,8 +63,8 @@ class Welcome extends Notification
     public function toArray($notifiable)
     {
         return [
-           'data'=>'Welcome '.$this->user->name,
-
+            'data'=> 'you have added your image, '.$this->user->name,
+            'url'=> $this->user->image,
         ];
     }
 }

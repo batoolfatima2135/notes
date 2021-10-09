@@ -32,3 +32,15 @@ Route::get('/showstudents', [App\Http\Controllers\StudentController::class, 'Sho
 Route::get('/StudentEditForm/{Student}', [App\Http\Controllers\StudentController::class, 'StudentEditForm'])->name('StudentEditForm');
 Route::post('/EditStudent/{Student}', [App\Http\Controllers\StudentController::class, 'EditStudent'])->name('EditStudent');
 Route::post('/DeleteStudent/{Student}', [App\Http\Controllers\StudentController::class, 'DeleteStudent'])->name('DeleteStudent');
+Route::post('/mark', function () {
+   Auth::user()->unreadNotifications->markAsRead();
+   return Auth::user()->unreadnotifications->count();
+})->name('mark');
+Route::post('/unmark', function () {
+    return Auth::user()->unreadnotifications->count();
+ })->name('unmark');
+Route::post('/image', [App\Http\Controllers\HomeController::class, 'Addimage'])->name('image');
+Route::get('/test', function () {
+    event(new App\Events\StatusLiked('Someone'));
+    return "Event has been sent!";
+});

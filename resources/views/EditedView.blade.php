@@ -7,7 +7,7 @@
     <title>EditedEmail</title>
 </head>
 <body>
-    <h3>hey {{$student->name}},</h3>
-    <p> you have edited your details</p>
+    <h3>hey {{$user->name}},</h3>
+    <p> you have edited your image</p>
 </body>
 </html>
